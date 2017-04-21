@@ -1,5 +1,9 @@
 node_modules
 config.json
 env.js
+
+knexfile.js
+
 .env
 knex.js
+

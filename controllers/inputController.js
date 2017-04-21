@@ -21,11 +21,13 @@ module.exports = {
     },
     updateInputs: function(req, res, next) {
       console.log('createInputs Running', req.body)
-      console.log(parseInt(req.body[0].id))
+
+      var id = 2;
         db('users')
             .returning('*')
-            .where('id', parseInt(req.body[0].id))
-            .update(req.body[0].firstname)
+            .where('id', 2)
+            .update(req.body)
+
             .then(function(results) {
                 return res.status(200).json(results)
             })
@@ -36,7 +38,7 @@ module.exports = {
 
     },
     readComps: function(req, res, next) {
-      console.log('req query')
+
       //TODO change to req.user.id
       user_id = 2
         db.select('id', 'user_id', 'compName', 'statusName', 'completed')
