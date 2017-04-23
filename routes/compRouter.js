@@ -4,7 +4,7 @@ const passport = require('passport');
 
 const router = express.Router()
 
-router.get('/', inputController.readInputs);
-router.put('/', inputController.updateInputs);
+router.get('/', inputController.readComps);
+router.post('/', inputController.createComps);
 
 module.exports = router
