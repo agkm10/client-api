@@ -4,7 +4,6 @@ const passport = require('passport');
 
 const router = express.Router()
 
-router.get('/', inputController.readInputs);
-router.put('/', inputController.updateInputs);
+router.get('/', inputController.uploadFile);
 
 module.exports = router
