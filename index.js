@@ -12,6 +12,7 @@ const express = require('express'),
   mainRoutes = require('./routes/mainRoutes.js'),
   clientRoutes = require('./routes/clientRoutes.js'),
   messageRoutes = require('./routes/messageRoutes.js'),
+  watsonRouter = require('./routes/watsonRoutes.js'),
   socketCtrl = require('./controllers/socketCtrl'),
   router=express.Router(),
   corsOptions = {
@@ -41,6 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(router);
 
+
 app.use('/api', mainRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/messages', messageRoutes);
@@ -48,6 +50,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/inputs', inputRoutes);
 app.use('/api/comps', compRoutes);
 app.use('/api/upload', uploadRoutes)
+app.use('/api/watson', watsonRouter)
 
 server.listen(config.port2, function() {
   console.log(`Server listening on port, ${config.port2}`)
