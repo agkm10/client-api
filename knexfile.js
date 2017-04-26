@@ -1,9 +1,15 @@
+require('dotenv').config({ path: './.env' })
+
 module.exports = {
-debug: true,
+
   development: {
     client: 'postgresql',
-    connection: {
-      database: 'intakegs'
-    }
+
+    connection: process.env.POSTGRES_CONNECTION_STRING
+  },
+  productions: {
+    client: 'postgresql',
+    connection: process.env.POSTGRES_CONNECTION_STRING
+
   }
 }
