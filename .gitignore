@@ -3,6 +3,6 @@ config.json
 env.js
 dropboxconfig.js
 knexfile.js
-
+dropboxConfig.js
 .env
 knex.js
