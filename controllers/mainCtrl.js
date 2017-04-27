@@ -8,7 +8,6 @@ module.exports = {
       userFunc.handleResponse(res,200,'success')
     },
     createSession: (req, res, next) => {
-      console.log('createSession running')
       passport.authenticate('local',
       (err, user, info) => {
       if(err){

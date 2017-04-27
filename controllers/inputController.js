@@ -16,7 +16,7 @@ module.exports = {
 
   updateInputs: function(req, res, next) {
     user_id = req.session.passport.user
-    db('userdata').returning('*').where('user_id', 2).update(req.body).then(function(results) {
+    db('userdata').where('user_id', user_id).update(req.body, '*').then(function(results) {
       return res.status(200).json(results)
     }).catch(function(err) {
       console.log(err)
@@ -40,7 +40,6 @@ module.exports = {
   },
 
   readComps: function(req, res, next) {
-    //TODO change to req.user.id
     user_id = req.session.passport.user
     db.select('id', 'user_id', 'compName', 'statusName', 'completed').from('components').where('user_id', user_id).then(function(results) {
       return res.status(200).json(results)
@@ -52,7 +51,6 @@ module.exports = {
   },
 
   createComps: function(req, res, next) {
-    console.log('req query', req.body[0])
     db('components').returning('*').insert(req.body[0]).then(function(results) {
       return res.status(200).json(results)
     }).catch(function(err) {
@@ -63,12 +61,15 @@ module.exports = {
   },
 
   updateComps: function(req, res, next) {
-    console.log('req query', req.body)
+    var compComplete = {
+      completed: req.body.completed
+    }
     db('components')
-    .returning('*')
-    .where('user_id', req.session.passport.user)
-    .where('compname', req.body.compName)
-    .insert(req.body.completed)
+    .where(function() {
+      this.where('user_id', req.session.passport.user)
+      .andWhere('compName', req.body.component)
+    })
+    .update(compComplete, '*')
     .then(function(results) {
       return res.status(200).json(results)
     }).catch(function(err) {
