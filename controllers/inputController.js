@@ -76,7 +76,7 @@ module.exports = {
         .where( () => {
             this.where( 'user_id',req.session.passport.user )
             .andWhere( 'compName',req.body.component )
-        })  
+        })
         .update( compComplete, '*' )
         .then( results => {
             return res.status( 200 ).json( results )
