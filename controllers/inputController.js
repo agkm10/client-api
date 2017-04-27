@@ -19,9 +19,8 @@ module.exports = {
     updateInputs: ( req, res, next ) => {
         user_id = req.session.passport.user
         db( 'userdata' )
-        .returning( '*' )
-        .where( 'user_id', 2 )
-        .update( req.body )
+        .where( 'user_id', user_id )
+        .update( req.body,'*' )
         .then( results => {
             return res.status( 200 ).json( results )
         })
@@ -47,7 +46,6 @@ module.exports = {
         })
     },
     readComps: ( req, res, next ) => {
-      //TODO change to req.user.id
         let user_id = req.session.passport.user
         db( 'components' )
         .select( 'id', 'user_id', 'compName', 'statusName', 'completed' )
@@ -71,11 +69,15 @@ module.exports = {
         })
     },
     updateComps: ( req, res, next ) => {
+        let compComplete = {
+            completed:req.body.completed
+        }  
         db( 'components' )
-        .returning( '*' )
-        .where( 'user_id', req.session.passport.user )
-        .where( 'compname', req.body.compName )
-        .insert( req.body.completed )
+        .where( () => {
+            this.where( 'user_id',req.session.passport.user )
+            .andWhere( 'compName',req.body.component )
+        }  
+        .update( compComplete,'*' )
         .then( results => {
             return res.status( 200 ).json( results )
         })
