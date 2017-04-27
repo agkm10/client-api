@@ -71,13 +71,13 @@ module.exports = {
     updateComps: ( req, res, next ) => {
         let compComplete = {
             completed:req.body.completed
-        }  
+        }
         db( 'components' )
         .where( () => {
             this.where( 'user_id',req.session.passport.user )
             .andWhere( 'compName',req.body.component )
-        }  
-        .update( compComplete,'*' )
+        })  
+        .update( compComplete, '*' )
         .then( results => {
             return res.status( 200 ).json( results )
         })
