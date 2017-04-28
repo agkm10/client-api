@@ -14,6 +14,7 @@ let conversation = new ConversationV1({
 let context = {};
 
 module.exports = {
+
     getMessage: ( req, res ) => {
         conversation.message( {}, ( err, response ) => {
             context = response.context;
@@ -44,4 +45,5 @@ module.exports = {
             return userFunc.handleResponse( res, 200, "I didnt quite understand what you said" )
         })
     }
+
 }
