@@ -30,10 +30,9 @@ module.exports = {
     },
     uploadFile: ( req, res, next ) => {
         let user_id = req.session.passport.user
-        db( 'intakegs' )
+        db( 'users' )
         .returning( '*' )
-        .from( 'userdata' )
-        .where( 'user_id', user_id )
+        .where( 'id', user_id )
         .then( results => {
             let uploadInfo = {
                 dropboxkey: dropboxkey,
@@ -73,15 +72,14 @@ module.exports = {
             completed:req.body.completed
         }
         db( 'components' )
-        .where( () => {
-            this.where( 'user_id',req.session.passport.user )
-            .andWhere( 'compName',req.body.component )
-        })
+        .where( 'user_id',req.session.passport.user )
+        .andWhere( 'compName',req.body.component )
         .update( compComplete, '*' )
         .then( results => {
             return res.status( 200 ).json( results )
         })
         .catch( err => {
+            console.log(err)
             return res.status( 500 ).json( err )
         })
     }
