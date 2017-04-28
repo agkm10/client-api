@@ -37,7 +37,7 @@ module.exports = {
   },
 
   postMessage: function(req, res, next) {
-    console.log(context)
+    console.log(req.body.message)
     conversation.message({
     input: { text: req.body.message },
     context : context,
