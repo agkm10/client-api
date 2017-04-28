@@ -3,7 +3,5 @@ const express = require('express'),
       router = express.Router();
 
 router.get('/',usersCtrl.readUser)
-router.post('/',usersCtrl.createUser)
-
 
 module.exports=router
