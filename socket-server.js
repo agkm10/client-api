@@ -1,12 +1,13 @@
-const socketCtrl = require( './controllers/socketCtrl' );
+const socketCtrl = require( './controllers/socketCtrl' ),
+    db = require( './db' )
 
-module.exports = io => {
+module.exports = ( io, socketClient ) => {
     io.on( 'connection', socket => {
         socket.on( 'authenticated', data => {
             socket.emit( 'socketid', socket.id )
-            socket.join( data )
             socketCtrl.fetchAllMessages( data )
             .then( response => {
+                socket.join( response[ 0 ].chat_id )
                 socket.emit( 'messagesfetched', response )
             })
         })
@@ -14,11 +15,17 @@ module.exports = io => {
             socketCtrl.insertMessage( data )
             .then( response => {
                 socket.emit( 'messagereceived', response )
+                db( 'chats' )
+                .where( 'id', response[0].chat_id )
+                .select( 'admin_id','id' )
+                .then( response => {
+                    socketClient.emit( 'newclientmessage', response[ 0 ] )
+                })
             } )
         } )
         socket.on( 'fetchmessages', data => {
             socketCtrl.fetchAllMessages( data )
-            .then(  response => {
+            .then( response => {
                 socket.emit( 'messagesfetched', response )
             })
         })
@@ -31,31 +38,12 @@ module.exports = io => {
                 })
             })
         })
+        socketClient.on( 'newmessageadmin', data => {
+            socketCtrl.fetchAllMessages( data.userid )
+            .then( response => {
+                io.to( data.index ).emit( 'newmessageadmin', response )
+            })
+        })
     })
+    socketClient.emit( 'node2connected' )
 }
-
-// const io = require( 'socket.io' );
-//
-//
-//     const socketServer = io( server );
-//     const connections = [];
-//
-//     socketServer.on('connection', socket => {
-//         connections.push(socket );
-//
-//     socket.on('message', data => {
-//         connections.forEach(connectedSocket => {
-//             if (connectedSocket !== socket ) {
-//                 connectedSocket.emit('message', data );
-//             }
-//         } );
-//     } );
-//
-//     socket.on('disconnect', ( ) => {
-//         const index = connections.indexOf(socket );
-//         connections.splice(index, 1 );
-//       } );
-//     } );
-//
-//
-// module.exports = socket-server
