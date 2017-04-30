@@ -8,7 +8,7 @@ module.exports = {
             .where( 'chats.user_id', data )
             .join( 'messages','chats.user_id','messages.user_id' )
             .join( 'users', 'users.id', 'messages.user_id' )
-            .select( 'chats.id as chat_id','chats.user_id as user_id','chats.admin_id as admin_id', 'messages.created_at as timestamp','messages.message as message','messages.type as type','messages.read as read', 'users.firstname as firstname','users.lastname as lastname' )
+            .select( 'chats.id as chat_id','chats.user_id as user_id','chats.admin_id as admin_id', 'messages.created_at as timestamp','messages.message as message','messages.type as type','messages.read as read', 'users.firstname as firstname','users.lastname as lastname','users.company as company' )
             .orderBy( 'timestamp' )
             .then( response => {
                 return response
