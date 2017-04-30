@@ -22,7 +22,7 @@ module.exports = {
             }
             // Display the output from dialog, if any.
             if ( response.output.text.length !== 0 ) {
-                return userFunc.handleReponse( res, 200 , response.output.text[ 0 ] )
+                return userFunc.handleReponse( res, 200 , 'message', response.output.text[ 0 ] )
             }
         })
     },
@@ -39,7 +39,7 @@ module.exports = {
             }
             // Display the output from dialog, if any.
             if ( response.output.text.length !== 0 ) {
-                return userFunc.handleResponse( res, 200, response.output.text[0] )
+                return userFunc.handleResponse( res, 200, 'message', response.output.text[0] )
             }
             return userFunc.handleResponse( res, 200, "I didnt quite understand what you said" )
         })
