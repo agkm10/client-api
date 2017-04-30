@@ -1,5 +1,5 @@
 const socketCtrl = require( './controllers/socketCtrl' ),
-    db = require( './db' )
+      db = require( './db' )
 
 module.exports = ( io, socketClient ) => {
     io.on( 'connection', socket => {

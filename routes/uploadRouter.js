@@ -1,9 +1,7 @@
-const express = require('express');
-const inputController = require('../controllers/inputController');
-const passport = require('passport');
+const express = require( 'express' ),
+      inputController = require( '../controllers/inputController' ),
+      router = express.Router();
 
-const router = express.Router()
+router.get( '/', inputController.uploadFile );
 
-router.get('/', inputController.uploadFile);
-
-module.exports = router
+module.exports = router;
