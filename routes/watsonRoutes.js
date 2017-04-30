@@ -1,9 +1,8 @@
-const express = require('express')
-const watsonCtrl = require('../controllers/watsonCtrl')
-const router = express.Router()
+const express = require( 'express' ),
+      watsonCtrl = require( '../controllers/watsonCtrl' ),
+      router = express.Router();
 
-router.get('/message', watsonCtrl.getMessage)
+router.get( '/message', watsonCtrl.getMessage )
+router.post( '/message', watsonCtrl.postMessage )
 
-router.post('/message', watsonCtrl.postMessage)
-
-module.exports = router
+module.exports = router;
