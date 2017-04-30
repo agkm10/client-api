@@ -13,16 +13,17 @@ const express = require( 'express' ),
     messageRoutes = require( './routes/messageRoutes.js' ),
     watsonRouter = require( './routes/watsonRoutes.js' ),
     socketServer = require( './socket-server' ),
-    router=express.Router(),
+    socketNode2Node = require( 'socket.io-client' )( `http://localhost:${ config.port1 }`),
+    router = express.Router(),
     corsOptions = {
-        origin: [`http://localhost:${config.port0}`, `http://localhost:${config.port2}`],
+        origin: [ `http://localhost:${config.port0}`, `http://localhost:${config.port2}` ],
         credentials: true
     },
     app = express(),
         server = require( 'http' ).createServer( app ),
         io = require( 'socket.io' )( server );
 
-socketServer( io );
+socketServer( io, socketNode2Node );
 
 app.use( cors( corsOptions ) );
 app.use( bodyParser.json() );
@@ -41,5 +42,5 @@ app.use( '/api/upload', uploadRoutes );
 app.use( '/api/watson', watsonRouter );
 
 server.listen( config.port2, () => {
-  console.log( `Server listening on port, ${config.port2}` )
+    console.log( `CLIENT-API listening on port, ${config.port2}` )
 })
